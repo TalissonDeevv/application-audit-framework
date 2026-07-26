@@ -6,13 +6,13 @@
 
 Analyze. Validate. Improve. Ship with confidence.
 
-> ⚠️ This project is currently under active development.
+> This project is currently under active development.
 
 </div>
 
 ---
 
-# 📖 Overview
+# Overview
 
 The AI Audit Framework (AAF) is an open methodology designed to standardize technical audits for modern software applications using Artificial Intelligence.
 
@@ -22,13 +22,13 @@ The framework focuses on producing consistent, explainable and production-orient
 
 ---
 
-# 🎯 Mission
+# Mission
 
 Help developers and companies deliver more secure, maintainable and production-ready software through a standardized AI-assisted auditing methodology.
 
 ---
 
-# 🚀 Vision
+# Vision
 
 Become the reference framework for AI-powered software audits.
 
@@ -36,7 +36,7 @@ Just as ESLint standardized code quality and OWASP standardized application secu
 
 ---
 
-# ❓ Why AAF?
+# Why AAF?
 
 Most AI code reviews have common problems:
 
@@ -51,7 +51,7 @@ AAF addresses these issues through a modular audit workflow.
 
 ---
 
-# 🧠 Core Principles
+# Core Principles
 
 Every audit performed by AAF follows these principles:
 
@@ -66,7 +66,7 @@ Every audit performed by AAF follows these principles:
 
 ---
 
-# 🔍 What AAF Audits
+# What AAF Audits
 
 The framework is designed to analyze multiple aspects of modern software systems.
 
@@ -85,7 +85,7 @@ Future versions will introduce additional specialized modules.
 
 ---
 
-# 🏗️ How It Works
+# How It Works
 
 Instead of asking an AI to "analyze the code", AAF executes a structured auditing workflow.
 
@@ -118,7 +118,7 @@ Each stage has a specific responsibility and follows predefined engineering stan
 
 ---
 
-# 📦 Project Structure
+# Project Structure
 
 ```
 docs/
@@ -133,7 +133,7 @@ Each directory represents an independent part of the framework.
 
 ---
 
-# 📚 Methodology
+# Methodology
 
 AAF is built around a modular audit methodology.
 
@@ -149,7 +149,7 @@ This allows the framework to evolve without breaking existing modules.
 
 ---
 
-# 🎯 Goals
+# Goals
 
 - Standardize AI-assisted software audits
 - Reduce inconsistent AI responses
@@ -161,7 +161,7 @@ This allows the framework to evolve without breaking existing modules.
 
 ---
 
-# 🚧 Project Status
+# Project Status
 
 Current stage:
 
@@ -177,13 +177,13 @@ The project is currently defining:
 
 ---
 
-# 🤝 Contributing
+# Contributing
 
 Contributions will be welcome after the first stable methodology is published.
 
 ---
 
-# 📄 License
+# License
 
 This project will be released under the MIT License.
 

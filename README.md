@@ -2,195 +2,293 @@
 
 # AI Audit Framework (AAF)
 
-### A methodology for intelligent software auditing powered by AI.
+### A standardized framework for AI-powered software audits
 
-Analyze. Validate. Improve. Ship with confidence.
+Analyze • Validate • Prioritize • Improve • Ship with confidence
 
-> This project is currently under active development.
+![Version](https://img.shields.io/badge/version-v1.0-blue)
+![Status](https://img.shields.io/badge/status-foundation-success)
+![License](https://img.shields.io/badge/license-MIT-green)
+![AI](https://img.shields.io/badge/AI-Multi--Model-purple)
 
 </div>
 
 ---
 
+## Table of Contents
+
+- Overview
+- Why AAF?
+- Features
+- Core Principles
+- Audit Categories
+- Architecture
+- Workflow
+- Directory Structure
+- Getting Started
+- How to Use
+- AI Compatibility
+- Prompt Pipeline
+- Knowledge Base
+- Auditors
+- Roadmap
+- FAQ
+- Glossary
+- Community
+- Contributing
+- License
+
+---
+
 # Overview
 
-The AI Audit Framework (AAF) is an open methodology designed to standardize technical audits for modern software applications using Artificial Intelligence.
+The **AI Audit Framework (AAF)** is an open methodology that standardizes software audits performed with Artificial Intelligence.
 
-Instead of relying on a single generic prompt, AAF organizes the auditing process into specialized modules that analyze different aspects of a project independently before consolidating the results into a comprehensive technical report.
+Instead of relying on one large prompt, AAF divides the audit into specialized auditors, each responsible for a single engineering domain. The results are consolidated into a consistent, evidence-based report.
 
-The framework focuses on producing consistent, explainable and production-oriented audits.
+## Why AAF?
 
----
-
-# Mission
-
-Help developers and companies deliver more secure, maintainable and production-ready software through a standardized AI-assisted auditing methodology.
-
----
-
-# Vision
-
-Become the reference framework for AI-powered software audits.
-
-Just as ESLint standardized code quality and OWASP standardized application security, AAF aims to standardize how AI performs technical software reviews.
-
----
-
-# Why AAF?
-
-Most AI code reviews have common problems:
+Traditional AI reviews often suffer from:
 
 - Generic responses
-- Inconsistent analysis
+- Hallucinated vulnerabilities
 - Missing architectural context
-- Lack of prioritization
-- High false-positive rates
-- No standardized methodology
+- Inconsistent severity
+- Poor prioritization
+- Lack of reproducibility
 
-AAF addresses these issues through a modular audit workflow.
+AAF addresses these problems through modular analysis, schemas, scoring and standardized reporting.
 
----
+# Features
+
+- Modular auditing
+- Multi-agent prompt strategy
+- Standardized findings
+- Evidence-first methodology
+- Severity & confidence models
+- Executive and technical reports
+- Knowledge Base
+- Extensible architecture
+- AI-model agnostic
 
 # Core Principles
 
-Every audit performed by AAF follows these principles:
-
 - Evidence over assumptions
-- Explain every finding
-- Prioritize production impact
-- Think before suggesting changes
 - Never invent vulnerabilities
-- Distinguish confirmed issues from possible issues
-- Keep reports consistent
-- Focus on engineering quality
+- Preserve traceability
+- Prioritize production impact
+- Explain every finding
+- Produce actionable recommendations
+- Keep terminology consistent
 
----
+# Audit Categories
 
-# What AAF Audits
-
-The framework is designed to analyze multiple aspects of modern software systems.
-
-Current audit domains include:
-
-- Software Architecture
-- Code Quality
+- Discovery
+- Architecture
 - Security
+- Code Quality
 - Performance
-- APIs
-- Database
 - Infrastructure
-- Production Readiness
+- Reporting
 
-Future versions will introduce additional specialized modules.
+# Architecture
 
----
-
-# How It Works
-
-Instead of asking an AI to "analyze the code", AAF executes a structured auditing workflow.
-
-```
+```text
 Project
-    │
-    ▼
+   │
 Discovery
-    │
-    ▼
-Architecture Review
-    │
-    ▼
-Security Review
-    │
-    ▼
-Performance Review
-    │
-    ▼
-Infrastructure Review
-    │
-    ▼
-Recommendations
-    │
-    ▼
-Final Report
+   │
+Architecture
+   │
+Security
+   │
+Code Quality
+   │
+Performance
+   │
+Infrastructure
+   │
+Report
 ```
 
-Each stage has a specific responsibility and follows predefined engineering standards.
+# Workflow
 
----
+```text
+Project
+   │
+   ▼
+Discovery Auditor
+   │
+Architecture Auditor
+   │
+Security Auditor
+   │
+Code Quality Auditor
+   │
+Performance Auditor
+   │
+Infrastructure Auditor
+   │
+Severity + Confidence
+   │
+Report Auditor
+   │
+Executive Report
+```
 
 # Project Structure
 
-```
-docs/
+```text
 core/
-modules/
-templates/
-benchmarks/
-examples/
+auditors/
+knowledge-base/
+prompts/
+schemas/
+docs/
 ```
 
-Each directory represents an independent part of the framework.
+# Getting Started
 
----
+```bash
+git clone https://github.com/<your-org>/ai-audit-framework.git
+cd ai-audit-framework
+```
 
-# Methodology
+Read:
 
-AAF is built around a modular audit methodology.
+1. docs/
+2. core/
+3. knowledge-base/
+4. auditors/
 
-Each module has:
+# How to Use
 
-- a clear responsibility
-- defined inputs
-- defined outputs
-- validation rules
-- reporting standards
+Current version focuses on methodology.
 
-This allows the framework to evolve without breaking existing modules.
+Future CLI:
 
----
+```bash
+aaf audit .
+```
 
-# Goals
+# AI Compatibility
 
-- Standardize AI-assisted software audits
-- Reduce inconsistent AI responses
-- Improve software quality
-- Improve application security
-- Improve production readiness
-- Reduce technical debt
-- Create reusable engineering workflows
+| Model | Status | Recommendation |
+|-------|--------|----------------|
+| GPT-5.5 | ✅ Tested | ⭐⭐⭐⭐⭐ |
+| Claude 4 | ✅ Tested | ⭐⭐⭐⭐⭐ |
+| Gemini 2.5 Pro | ✅ Tested | ⭐⭐⭐⭐☆ |
+| Grok | 🧪 Experimental | ⭐⭐⭐☆☆ |
+| DeepSeek | 🧪 Experimental | ⭐⭐⭐☆☆ |
+| Qwen | 🧪 Experimental | ⭐⭐⭐☆☆ |
 
----
+# Prompt Pipeline
 
-# Project Status
+```text
+System
+ ↓
+Planner
+ ↓
+Discovery
+ ↓
+Architecture
+ ↓
+Security
+ ↓
+Code Quality
+ ↓
+Performance
+ ↓
+Infrastructure
+ ↓
+Reviewer
+ ↓
+Critic
+ ↓
+Reporter
+```
 
-Current stage:
+# Knowledge Base
 
-> Foundation & Methodology
+- Security standards
+- Languages
+- Frameworks
+- Databases
+- Cloud
+- Architecture patterns
 
-The project is currently defining:
+# Auditors
 
-- Core architecture
-- Audit methodology
-- Module specifications
-- Engineering standards
-- Validation workflow
+| Auditor | Purpose |
+|----------|---------|
+| Discovery | Understand the project |
+| Architecture | Evaluate design |
+| Security | Identify security risks |
+| Code Quality | Assess maintainability |
+| Performance | Detect bottlenecks |
+| Infrastructure | Review deployment and operations |
+| Report | Consolidate results |
 
----
+# Roadmap
+
+- ✅ V1 Documentation & Methodology
+- 🟨 V2 Engine
+- ⬜ V3 AI Agents
+- ⬜ V4 CLI
+- ⬜ V5 Dashboard
+- ⬜ V6 VS Code Extension
+- ⬜ V7 GitHub Action
+- ⬜ V8 Enterprise
+
+# FAQ
+
+**Is AAF an AI model?**
+
+No. It is a framework and methodology.
+
+**Does it replace security scanners?**
+
+No. It complements them with structured AI reasoning.
+
+**Can I use my preferred LLM?**
+
+Yes. The framework is model-agnostic.
+
+# Glossary
+
+- Audit
+- Auditor
+- Finding
+- Evidence
+- Severity
+- Confidence
+- Recommendation
+- Report
+- Schema
+- Knowledge Base
+
+# Community
+
+🌐 Website
+
+https://www.talissonsouza.com.br
+
+💬 Discord
+
+https://discord.talissonsouza.com.br
 
 # Contributing
 
-Contributions will be welcome after the first stable methodology is published.
-
----
+Contributions are welcome after the first stable release of the framework.
 
 # License
 
-This project will be released under the MIT License.
+MIT License.
 
 ---
 
 <div align="center">
 
-Built with ❤️ for developers who care about software quality.
+Built for developers and engineering teams who care about software quality.
 
 </div>

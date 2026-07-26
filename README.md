@@ -6,21 +6,22 @@
 
 **A standardized framework for AI-powered software auditing.**
 
-[![Version](https://img.shields.io/badge/version-v0.1_foundation-1f6feb?style=flat-square)](docs/ROADMAP.md)
-[![Status](https://img.shields.io/badge/status-documentation_first-0969da?style=flat-square)](docs/ARCHITECTURE.md)
-[![Schemas](https://img.shields.io/badge/schemas-JSON_Schema_2020--12-8250df?style=flat-square)](schemas/)
+[![Version](https://img.shields.io/badge/version-v1-1f6feb?style=flat-square)](#roadmap)
+[![Status](https://img.shields.io/badge/status-documentation_framework-0969da?style=flat-square)](docs/METHODOLOGY.md)
+[![Auditors](https://img.shields.io/badge/auditors-7_modules-8250df?style=flat-square)](auditors/)
+[![Knowledge Base](https://img.shields.io/badge/knowledge_base-43_files-57606a?style=flat-square)](knowledge-base/)
 [![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
-[![Security](https://img.shields.io/badge/security-evidence_required-b42318?style=flat-square)](SECURITY.md)
-[![Governance](https://img.shields.io/badge/governance-RFC_based-57606a?style=flat-square)](governance/RFC_PROCESS.md)
+
+Maintained by [Talisson Souza](https://www.talissonsouza.com.br) | [Discord Community](https://discord.talissonsouza.com.br)
 
 </div>
 
-<!-- Banner placeholder: replace this block with an image such as assets/brand/aaf-banner.svg when brand assets are added. -->
+<!-- Banner placeholder: replace this table with an image file after a banner is added to the repository. -->
 <table>
   <tr>
     <td width="100%">
-      <strong>AI Audit Framework</strong><br />
-      Modular auditors, validated contracts, evidence-backed findings, provider-independent model execution, and professional engineering reports.
+      <strong>AI Audit Framework (AAF)</strong><br />
+      Modular auditors, evidence-first analysis, standardized schemas, reusable knowledge, prompt orchestration, and professional audit reporting.
     </td>
   </tr>
 </table>
@@ -30,18 +31,19 @@
 - [Overview](#overview)
 - [Why AAF Exists](#why-aaf-exists)
 - [Core Philosophy](#core-philosophy)
+- [Repository Status](#repository-status)
 - [Key Features](#key-features)
-- [Current Maturity](#current-maturity)
 - [Architecture Overview](#architecture-overview)
 - [Audit Workflow](#audit-workflow)
 - [Supported Auditors](#supported-auditors)
 - [Knowledge Base](#knowledge-base)
-- [Prompt Pipeline](#prompt-pipeline)
+- [Prompt System](#prompt-system)
+- [Schemas and Specifications](#schemas-and-specifications)
 - [AI Compatibility](#ai-compatibility)
 - [Project Structure](#project-structure)
 - [Quick Start](#quick-start)
 - [Installation](#installation)
-- [Documentation](#documentation)
+- [Documentation Links](#documentation-links)
 - [Community](#community)
 - [Roadmap](#roadmap)
 - [FAQ](#faq)
@@ -50,505 +52,585 @@
 
 ## Overview
 
-The AI Audit Framework (AAF) is an open-source framework for standardizing software audits performed with artificial intelligence.
+The AI Audit Framework (AAF) is an open-source framework for standardizing software audits performed with Artificial Intelligence.
 
-AAF does not ask one large prompt to inspect an entire codebase and produce a report in a single step. It divides audit work into specialized auditors, validates the handoff between those auditors, records evidence for every meaningful claim, and assembles findings into a professional engineering report.
+Instead of relying on one large prompt, AAF divides an audit into specialized auditors. Each auditor focuses on one engineering domain, produces structured output, and hands that output to the next stage. The final report is assembled from project discovery, architecture observations, code-quality findings, security risks, performance analysis, infrastructure review, and report consolidation.
 
-The framework is designed around a simple rule:
+AAF is designed for teams that want AI-assisted audits to be:
+
+- consistent across projects;
+- evidence-based instead of speculative;
+- modular enough to evolve by domain;
+- understandable by engineers and stakeholders;
+- reusable across different technologies and AI models.
 
 > [!IMPORTANT]
-> An AI-generated audit result is not a finding until it is evidence-backed, scoped, classified, and valid against the framework contract.
-
-AAF currently provides a documentation-first foundation: architecture, methodology, schemas, contracts, templates, governance, scoring rules, model-support requirements, and the first complete auditor specification: the [Discovery Auditor](auditors/discovery/README.md). Executable CLI, API, dashboard, plugin runtime, benchmark automation, and editor integrations are planned in the public [roadmap](docs/ROADMAP.md).
+> AAF is a documentation and prompt framework in this repository. It defines auditors, methodology, schemas, prompts, specifications, and a knowledge base. It does not currently include a CLI, API server, dashboard, package manifest, executable audit engine, or automated validation runtime.
 
 ## Why AAF Exists
 
-AI models can read code quickly, explain patterns clearly, and surface useful risks. They can also overgeneralize, miss context, confuse frameworks, invent unavailable runtime behavior, and produce confident recommendations without enough evidence.
+AI can inspect code quickly, but unstructured AI audits often fail in predictable ways:
 
-AAF exists to make AI-assisted auditing behave more like an engineering process:
-
-| Problem in unstructured AI audits | AAF response |
+| Problem | AAF response |
 | --- | --- |
-| A single prompt mixes discovery, analysis, severity, and reporting | Separate auditor modules with explicit scope |
-| Findings appear without file, configuration, or runtime evidence | Evidence is required by schemas and core rules |
-| Model-specific behavior leaks into reports | Provider adapters are separated from framework contracts |
-| Different audits use different severity language | Shared severity, confidence, scoring, and report models |
-| Context is lost between audit stages | Auditors exchange structured contracts |
-| Reports are hard to compare across projects | Scores, categories, inventories, and findings use stable shapes |
-| Future tooling must reinterpret prose | JSON Schema, YAML contracts, and specifications are first-class artifacts |
+| One prompt tries to discover, analyze, score, and report everything | Separate auditors perform scoped stages |
+| Findings appear without evidence | Core rules require evidence for every finding |
+| Different audits use different terminology | Shared severity, confidence, scoring, schema, and reporting documents |
+| Security and quality recommendations get mixed together | Each auditor owns one engineering domain |
+| Reports are difficult to review | The Report Auditor consolidates findings with standardized sections |
+| AI output depends too heavily on provider behavior | Prompts and schemas define expected behavior independently of the model |
 
-AAF is therefore a framework for repeatability, not a prompt collection.
+AAF turns AI auditing into a repeatable engineering workflow rather than a free-form conversation.
 
 ## Core Philosophy
 
-AAF is built on six operating principles.
-
-| Principle | Meaning |
+| Principle | Meaning in AAF |
 | --- | --- |
-| Modular architecture | Each auditor owns one engineering domain and one bounded responsibility. |
-| Explainability | Reports must show how conclusions were reached, which evidence was used, and which limitations remain. |
-| Evidence-based findings | Unsupported observations are rejected or recorded as limitations. They are not softened into vague recommendations. |
-| Reproducibility | Audit stages, model metadata, schemas, contracts, and report outputs must be traceable. |
-| Standardization | Severity, confidence, scoring, terminology, templates, and handoffs use shared definitions. |
-| Model independence | OpenAI, Anthropic, Google, xAI, DeepSeek, Qwen, local LLMs, and future providers should integrate through adapters instead of changing auditor contracts. |
-
-> [!NOTE]
-> The current repository defines the framework foundation. It intentionally separates implemented documentation and contracts from future executable surfaces so adopters can see what is stable today and what is planned.
-
-## Key Features
-
-| Area | What exists now | Related files |
-| --- | --- | --- |
-| Methodology | Staged audit lifecycle with quality gates | [docs/METHODOLOGY.md](docs/METHODOLOGY.md), [core/workflow.md](core/workflow.md) |
-| Architecture | Modular component model and provider boundary | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), [adr/0002-module-architecture.md](adr/0002-module-architecture.md) |
-| Discovery Auditor | Complete first auditor specification, checklist, prompt, and tests directory | [auditors/discovery/README.md](auditors/discovery/README.md) |
-| Contracts | YAML handoff contracts for inventory, findings, and reports | [contracts/](contracts/) |
-| Schemas | JSON Schema validation for audit, inventory, finding, and report artifacts | [schemas/](schemas/) |
-| Scoring | 0-100 scoring model with category weights and severity impact guidance | [core/scoring.md](core/scoring.md) |
-| Templates | Standard report, finding, recommendation, risk matrix, inventory, and executive-summary templates | [templates/](templates/) |
-| Knowledge Base | Vendor-neutral engineering knowledge structure for auditors | [knowledge/README.md](knowledge/README.md) |
-| Model support | Adapter metadata and provider-independent model participation rules | [docs/MODEL_SUPPORT.md](docs/MODEL_SUPPORT.md), [models/README.md](models/README.md) |
-| Governance | RFC, decision, release, contribution, security, and change policies | [governance/](governance/), [SECURITY.md](SECURITY.md) |
+| Modular architecture | Auditors are independent modules with explicit inputs, responsibilities, outputs, and limitations. |
+| Explainability | Findings must include description, evidence, impact, recommendation, severity, confidence, and references. |
+| Evidence first | Missing context must be stated as a limitation instead of being invented. |
+| Reproducibility | Auditors follow the same methodology and output schemas on every audit. |
+| Standardization | Core documents define audit flow, evidence rules, severity, confidence, scoring, and report structure. |
+| Extensibility | New auditors, knowledge entries, schemas, and prompts can be added without rewriting existing modules. |
+| Model independence | AAF can be used with any AI model capable of following the framework prompts and output requirements. |
 
 <details>
 <summary><strong>What AAF is not</strong></summary>
 
-AAF is not a vulnerability scanner, not a static analyzer, not a hosted SaaS product, not a model provider, and not a replacement for human engineering review.
+AAF is not a vulnerability scanner, not a static analyzer, not a package that runs audits automatically, not a hosted service, and not a replacement for human review.
 
-It is a specification-led framework for organizing AI-assisted audits so findings become traceable, comparable, and reviewable.
+This repository is the framework foundation: a structured documentation system, prompt system, auditor catalog, knowledge base, schemas, and specifications for performing AI-assisted audits consistently.
 
 </details>
 
-## Current Maturity
+## Repository Status
 
-AAF uses a documentation-first release model. The repository currently establishes the framework foundation rather than a packaged runtime.
+This ZIP contains the documentation framework and auditor materials for AAF V1.
 
-| Capability | Status | Notes |
+| Capability | Status in this ZIP | Source |
 | --- | --- | --- |
-| Core methodology | Available | Defines the lifecycle and quality gates. |
-| Core architecture | Available | Defines component boundaries and future delivery surfaces. |
-| Discovery Auditor | Available | First complete auditor module. |
-| Finding, inventory, report schemas | Available | JSON Schema draft 2020-12. |
-| Contracts and templates | Available | YAML and Markdown artifacts for standard handoffs. |
-| CLI | Planned | Reserved command model in [cli/README.md](cli/README.md). |
-| REST API | Planned | Reserved endpoint responsibilities in [api/README.md](api/README.md). |
-| Dashboard | Planned | Reserved product architecture in [dashboard/README.md](dashboard/README.md). |
-| Plugin SDK | Planned | Template and ADR exist; runtime loading is future work. |
-| Model certification | Planned | Record model defined; benchmarked certification is future work. |
+| Core audit rules | Available | [core/rules.md](core/rules.md) |
+| Audit flow | Available | [core/audit-flow.md](core/audit-flow.md), [core/workflow.md](core/workflow.md) |
+| Severity model | Available | [core/severity.md](core/severity.md) |
+| Confidence model | Available | [core/confidence.md](core/confidence.md) |
+| Scoring model | Available | [core/scoring.md](core/scoring.md) |
+| Discovery Auditor | Available | [auditors/discovery/README.md](auditors/discovery/README.md) |
+| Architecture Auditor | Available | [auditors/architecture/README.md](auditors/architecture/README.md) |
+| Security Auditor | Available | [auditors/security/README.md](auditors/security/README.md) |
+| Code Quality Auditor | Available | [auditors/code-quality/README.md](auditors/code-quality/README.md) |
+| Performance Auditor | Available | [auditors/performance/README.md](auditors/performance/README.md) |
+| Infrastructure Auditor | Available | [auditors/infrastructure/README.md](auditors/infrastructure/README.md) |
+| Report Auditor | Available | [auditors/report/README.md](auditors/report/README.md) |
+| Prompt system | Available | [prompts/](prompts/) |
+| Knowledge base | Available | [knowledge-base/](knowledge-base/) |
+| Schemas | Available as Markdown/YAML structures | [schemas/](schemas/) |
+| Specifications | Available | [specifications/](specifications/) |
+| CLI, API, dashboard, AST parser, rule engine, agents, RAG, PDF, HTML reports | Planned | [Roadmap](#roadmap) |
 
 > [!WARNING]
-> Commands such as `aaf audit`, `aaf profile`, `aaf benchmark`, and `aaf report` are part of the planned executable core. They are documented as target behavior, not as installed commands in this foundation release.
+> Do not expect directories such as `cli/`, `api/`, `dashboard/`, `contracts/`, `templates/`, `governance/`, `assets/`, or `models/` in this ZIP. They are not part of the current package.
+
+## Key Features
+
+### Domain-specific auditors
+
+AAF separates the audit into seven auditor directories:
+
+- [Discovery](auditors/discovery/README.md)
+- [Architecture](auditors/architecture/README.md)
+- [Security](auditors/security/README.md)
+- [Code Quality](auditors/code-quality/README.md)
+- [Performance](auditors/performance/README.md)
+- [Infrastructure](auditors/infrastructure/README.md)
+- [Report](auditors/report/README.md)
+
+### Evidence-based finding rules
+
+Core audit rules require auditors to:
+
+- never assume missing information;
+- include evidence in every finding;
+- justify every recommendation;
+- separate facts from assumptions;
+- state limitations when context is insufficient.
+
+See [core/rules.md](core/rules.md) and [core/evidence.md](core/evidence.md).
+
+### Standard output models
+
+AAF includes Markdown schema documents for:
+
+- [Project Schema](schemas/project-schema.md)
+- [Finding Schema](schemas/finding-schema.md)
+- [Report Schema](schemas/report-schema.md)
+
+These schemas define the expected structure of project inventories, findings, and final reports.
+
+### Reusable knowledge base
+
+The [knowledge-base/](knowledge-base/) directory contains reusable references for security, languages, frameworks, databases, cloud providers, and architecture styles.
+
+### Prompt orchestration
+
+The [prompts/](prompts/) directory defines separate roles for system rules, planning, discovery, security review, critique, review, and reporting.
+
+### Professional report consolidation
+
+The [Report Auditor](auditors/report/README.md) consolidates all auditor outputs into an executive and technical report with findings, severity analysis, confidence analysis, recommendations, scoring, and roadmap.
 
 ## Architecture Overview
 
-AAF separates source inspection, auditor reasoning, validation, scoring, and report rendering into explicit framework components.
+AAF uses a staged modular architecture. Each stage consumes the output of earlier stages and contributes its own structured analysis.
 
 ```mermaid
 flowchart TD
-    Source["Repository or Artifact"] --> Discovery["Discovery Auditor"]
-    Discovery --> Inventory["Project Inventory Contract"]
-    Inventory --> Planner["Audit Planner"]
-    Planner --> Profile["Technology Profile"]
-    Profile --> Scoped["Scoped Auditors"]
-    Scoped --> Findings["Finding Contract"]
-    Findings --> Validation["Schema and Evidence Validation"]
-    Validation --> Scoring["Scoring Model"]
-    Scoring --> Report["Report Contract"]
-    Report --> Surfaces["CLI, API, Dashboard, GitHub Action, VS Code"]
-    Models["AI Provider Adapters"] --> Scoped
-    Knowledge["Knowledge Base"] --> Scoped
-    Plugins["Plugin Packages"] --> Profile
-    Plugins --> Scoped
-    Plugins --> Templates["Report Templates"]
+    Project["Target Project"] --> Discovery["Discovery Auditor"]
+    Discovery --> Architecture["Architecture Auditor"]
+    Architecture --> Security["Security Auditor"]
+    Architecture --> Quality["Code Quality Auditor"]
+    Architecture --> Performance["Performance Auditor"]
+    Discovery --> Infrastructure["Infrastructure Auditor"]
+    Security --> Report["Report Auditor"]
+    Quality --> Report
+    Performance --> Report
+    Infrastructure --> Report
+    Core["Core Rules and Models"] --> Discovery
+    Core --> Architecture
+    Core --> Security
+    Core --> Quality
+    Core --> Performance
+    Core --> Infrastructure
+    Core --> Report
+    Knowledge["Knowledge Base"] --> Security
+    Knowledge --> Quality
+    Knowledge --> Performance
+    Knowledge --> Infrastructure
+    Prompts["Prompt System"] --> Discovery
+    Prompts --> Security
+    Prompts --> Report
 ```
 
-The architecture has four important boundaries:
+The official architecture document is [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
-| Boundary | Responsibility |
+### Architectural responsibilities
+
+| Component | Responsibility |
 | --- | --- |
-| Auditor boundary | Auditors consume structured inputs and emit structured outputs for one domain. |
-| Contract boundary | Inventory, findings, and reports move between components through machine-readable contracts. |
-| Provider boundary | AI models are accessed through adapters; provider behavior must not change AAF schemas. |
-| Surface boundary | CLI, API, dashboard, GitHub Action, and VS Code surfaces call orchestration behavior instead of embedding auditor logic. |
-
-The source Mermaid files live in [assets/diagrams/](assets/diagrams/).
+| `core/` | Defines global rules, audit flow, evidence rules, severity, confidence, scoring, output behavior, and reporting principles. |
+| `auditors/` | Contains the domain-specific auditors and their prompts, specifications, checklists, examples, modules, and tests. |
+| `knowledge-base/` | Stores reusable engineering references that auditors can consult during analysis. |
+| `prompts/` | Defines the prompt pipeline and model behavior constraints. |
+| `schemas/` | Defines Markdown/YAML output structures for project inventory, findings, and reports. |
+| `specifications/` | Defines reusable specifications for modules, findings, and reports. |
+| `docs/` | Explains architecture and methodology at framework level. |
 
 ## Audit Workflow
 
-Every AAF audit follows a staged lifecycle. Later auditors are not expected to guess project context; they consume the Project Inventory created by Discovery.
+AAF follows the lifecycle described in [core/audit-flow.md](core/audit-flow.md) and [docs/METHODOLOGY.md](docs/METHODOLOGY.md).
 
 ```mermaid
 sequenceDiagram
     participant User
-    participant Orchestrator
+    participant Planner
     participant Discovery
-    participant Validator
     participant Auditors
+    participant Reviewer
     participant Reporter
 
-    User->>Orchestrator: Submit audit request
-    Orchestrator->>Discovery: Inspect repository facts
-    Discovery->>Validator: Emit Project Inventory
-    Validator-->>Orchestrator: Inventory validation result
-    Orchestrator->>Auditors: Run scoped auditors with structured context
-    Auditors->>Validator: Emit findings and limitations
-    Validator-->>Reporter: Validated artifacts
-    Reporter-->>User: Report, scores, evidence, and limitations
+    User->>Planner: Provide project and audit objective
+    Planner->>Discovery: Start project discovery
+    Discovery-->>Auditors: Provide project inventory
+    Auditors-->>Reviewer: Submit findings with evidence
+    Reviewer-->>Auditors: Reject or refine weak findings
+    Reviewer-->>Reporter: Send validated findings
+    Reporter-->>User: Deliver final audit report
 ```
 
-The canonical workflow is:
+The standard execution order is:
 
-1. Collect audit request metadata.
-2. Run the Discovery Auditor.
-3. Validate the Project Inventory.
-4. Select profiles and scoped auditors.
-5. Run scoped auditors.
-6. Validate findings and limitations.
-7. Calculate scores.
-8. Render reports.
-9. Store evidence and execution metadata.
+1. Project Discovery
+2. Architecture Analysis
+3. Technology Detection
+4. Security Audit
+5. Code Quality Audit
+6. Performance Audit
+7. Infrastructure Audit
+8. Finding Aggregation
+9. Risk Assessment
+10. Score Calculation
+11. Report Generation
 
-Quality gates are defined in [docs/METHODOLOGY.md](docs/METHODOLOGY.md) and [core/rules.md](core/rules.md).
+> [!NOTE]
+> The workflow is currently documented as methodology and prompt guidance. The ZIP does not include an executable orchestrator.
 
 ## Supported Auditors
 
-AAF defines auditor domains as independent modules. In the current repository, Discovery is the first complete auditor; the other domains are part of the standard audit architecture and roadmap.
+### Auditor matrix
 
-| Auditor | Current repository status | Responsibility |
-| --- | --- | --- |
-| Discovery | Complete specification | Detects project facts, technologies, delivery surfaces, configuration signals, documentation, and limitations. Produces the Project Inventory. |
-| Architecture | Planned auditor domain | Reviews system structure, boundaries, dependencies, coupling, scalability assumptions, and architectural risks. |
-| Security | Planned auditor domain | Reviews authentication, authorization, data exposure, insecure configuration, dependency risk, secrets handling, and applicable standards. |
-| Code Quality | Planned auditor domain | Reviews maintainability, complexity, duplication, testability, readability, and implementation consistency. |
-| Performance | Planned auditor domain | Reviews latency risks, database access patterns, caching, payload size, concurrency, and resource usage. |
-| Infrastructure | Planned auditor domain | Reviews deployment, CI/CD, containers, cloud configuration, observability, backup posture, and production readiness. |
-| Report | Planned report builder domain | Consolidates validated inventories, findings, scores, methodology, limitations, and appendices into audience-ready reports. |
+| Auditor | Folder | Purpose | Main outputs |
+| --- | --- | --- | --- |
+| Discovery | [auditors/discovery/](auditors/discovery/) | Understands the project before technical analysis begins. | Project inventory, technology stack, structure, dependencies, environment signals. |
+| Architecture | [auditors/architecture/](auditors/architecture/) | Evaluates structural design, module boundaries, coupling, cohesion, and scalability. | Architecture findings, structural observations, recommendations, architecture score. |
+| Security | [auditors/security/](auditors/security/) | Performs evidence-based security assessment across the application stack. | Security findings, risk classification, severity assessment, recommendations, security score. |
+| Code Quality | [auditors/code-quality/](auditors/code-quality/) | Reviews maintainability, readability, consistency, complexity, and engineering quality. | Quality findings, maintainability observations, remediation recommendations. |
+| Performance | [auditors/performance/](auditors/performance/) | Reviews efficiency, responsiveness, bottlenecks, and scalability. | Performance findings, optimization opportunities, impact explanations. |
+| Infrastructure | [auditors/infrastructure/](auditors/infrastructure/) | Reviews deployment, cloud, containers, networking, monitoring, logging, backup, and availability. | Infrastructure findings, production readiness risks, operational recommendations. |
+| Report | [auditors/report/](auditors/report/) | Consolidates outputs from all auditors into a professional final report. | Executive summary, technical summary, score, severity analysis, recommendations, roadmap. |
 
-<details>
-<summary><strong>Discovery Auditor output contract</strong></summary>
+### Auditor composition
 
-The Discovery Auditor emits a Project Inventory in Markdown, JSON, or YAML. The JSON form validates against [schemas/inventory.schema.json](schemas/inventory.schema.json), and the YAML form conforms to [contracts/inventory.yml](contracts/inventory.yml).
+```text
+auditors/
+|-- architecture/
+|-- code-quality/
+|-- discovery/
+|-- infrastructure/
+|-- performance/
+|-- report/
+`-- security/
+```
 
-Required inventory sections include:
+Several auditors include domain modules. For example:
 
-- `metadata`
-- `project`
-- `technologies`
-- `surfaces`
-- `delivery`
-- `configuration`
-- `documentation`
-- `limitations`
-
-Discovery records facts and confidence. It does not produce security findings, architecture recommendations, performance conclusions, or code-quality scores.
-
-</details>
+- Security modules cover authentication, authorization, JWT, secrets, CSRF, XSS, SSRF, SQL injection, CORS, headers, file upload, rate limiting, logging, dependencies, and environment configuration.
+- Code Quality modules cover complexity, duplication, naming, functions, classes, modularity, dependencies, SOLID, DRY, KISS, error handling, logging, testing, documentation, maintainability, readability, dead code, and code smells.
+- Performance modules cover algorithms, API performance, assets, async work, bottlenecks, bundle size, caching, CPU, database, frontend, lazy loading, memory, network, queries, rendering, scalability, and compression.
+- Infrastructure modules cover deployment, containers, cloud, AWS, Azure, GCP, Cloudflare, Docker, Kubernetes, networking, DNS, SSL/TLS, CI/CD, monitoring, logging, backup, disaster recovery, scalability, and availability.
 
 ## Knowledge Base
 
-The [Knowledge Base](knowledge/README.md) organizes reusable engineering knowledge that auditors can use consistently across projects.
+The Knowledge Base is located at [knowledge-base/](knowledge-base/). It contains 43 files organized into six sections.
 
-Current knowledge categories are:
+| Section | Folder | Included topics |
+| --- | --- | --- |
+| Security | [knowledge-base/security/](knowledge-base/security/) | OWASP Top 10, OWASP ASVS, NIST SSDF, CWE, CVSS, CIS, cheat sheets. |
+| Languages | [knowledge-base/languages/](knowledge-base/languages/) | JavaScript, TypeScript, Python, Java, PHP, C#, Go, Rust, metadata. |
+| Frameworks | [knowledge-base/frameworks/](knowledge-base/frameworks/) | React, Next.js, Vue, Angular, Express, NestJS, Django, FastAPI, Laravel, Spring, ASP.NET. |
+| Databases | [knowledge-base/databases/](knowledge-base/databases/) | PostgreSQL, MySQL, SQL Server, MongoDB, Redis. |
+| Cloud | [knowledge-base/cloud/](knowledge-base/cloud/) | AWS, Azure, GCP, Cloudflare, Vercel, Square Cloud. |
+| Architecture | [knowledge-base/architecture/](knowledge-base/architecture/) | Monolith, microservices, hexagonal architecture, event-driven architecture, serverless. |
 
-| Section | Example topics |
-| --- | --- |
-| Security | Authentication, authorization, JWT, OAuth, OWASP categories, common weakness patterns |
-| Languages | Runtime behavior, package managers, idioms, test conventions |
-| Frameworks | Routing, middleware, rendering, dependency injection, build output, deployment expectations |
-| Databases | PostgreSQL, MySQL, Redis, MongoDB, migrations, query patterns, connection handling |
-| Cloud | Deployment targets, IAM, storage, networking, managed services, configuration evidence |
-| Architecture | Boundaries, coupling, modularity, resilience, observability, data flow |
+Auditors use the Knowledge Base as structured context. A knowledge entry can guide what to inspect, but it does not replace project evidence.
 
-Auditors consume the Knowledge Base as context, not as authority that overrides evidence. If repository evidence conflicts with a general knowledge entry, the auditor must record the repository evidence and explain any uncertainty.
+> [!NOTE]
+> The file [knowledge-base/architecture/erverless.md](knowledge-base/architecture/erverless.md) appears in the ZIP with that exact filename. Keep links using the exact spelling until the file is renamed.
 
-## Prompt Pipeline
+## Prompt System
 
-AAF's prompt system is specified as an orchestration layer rather than a single prompt. The prompt pipeline is responsible for moving structured context through specialized roles.
+The prompt system is located at [prompts/](prompts/). It separates model instructions by role.
 
-| Prompt role | Responsibility |
-| --- | --- |
-| System | Defines invariant rules, terminology, output requirements, and safety constraints. |
-| Planner | Selects workflow stages, profiles, auditors, and required inputs. |
-| Discovery | Produces the Project Inventory from repository evidence. |
-| Security | Produces scoped security findings when implemented and activated. |
-| Reviewer | Checks output against contracts, evidence requirements, and auditor scope. |
-| Critic | Challenges weak severity, missing evidence, unsupported recommendations, and ambiguity. |
-| Reporter | Converts validated artifacts into executive and engineering report sections. |
+| Prompt | File | Responsibility |
+| --- | --- | --- |
+| System | [prompts/system.md](prompts/system.md) | Defines global auditor behavior, accuracy rules, standards, and output rules. |
+| Planner | [prompts/planner.md](prompts/planner.md) | Understands the project, selects auditors, and builds the execution plan. |
+| Discovery | [prompts/discovery.md](prompts/discovery.md) | Guides project discovery and technology detection. |
+| Security | [prompts/security.md](prompts/security.md) | Guides security analysis according to the framework rules. |
+| Reviewer | [prompts/reviewer.md](prompts/reviewer.md) | Reviews evidence, severity, confidence, references, and recommendations. |
+| Critic | [prompts/critic.md](prompts/critic.md) | Challenges findings to reduce false positives. |
+| Reporter | [prompts/reporter.md](prompts/reporter.md) | Generates the final audit report. |
 
-Prompt chaining follows contract boundaries:
+The prompt chain is:
 
 ```text
-System rules
-    |
-    v
-Planner prompt
-    |
-    v
-Discovery prompt --> Project Inventory --> Validation
-                                      |
-                                      v
-Scoped auditor prompts --> Findings --> Review/Critic --> Report prompt
+System
+  |
+  v
+Planner
+  |
+  v
+Discovery
+  |
+  v
+Architecture / Security / Code Quality / Performance / Infrastructure
+  |
+  v
+Reviewer
+  |
+  v
+Critic
+  |
+  v
+Reporter
 ```
 
-The prompt specification lives in [specifications/prompt-specification.md](specifications/prompt-specification.md), and the Discovery prompt lives in [auditors/discovery/prompt.md](auditors/discovery/prompt.md).
+## Schemas and Specifications
+
+AAF defines schemas and specifications as Markdown documents.
+
+### Schemas
+
+| Schema | File | Purpose |
+| --- | --- | --- |
+| Project Schema | [schemas/project-schema.md](schemas/project-schema.md) | Standard structure for the Discovery project inventory. |
+| Finding Schema | [schemas/finding-schema.md](schemas/finding-schema.md) | Standard structure for issues, observations, risks, and recommendations. |
+| Report Schema | [schemas/report-schema.md](schemas/report-schema.md) | Standard structure for the final audit report. |
+
+### Specifications
+
+| Specification | File | Purpose |
+| --- | --- | --- |
+| Module Specification | [specifications/module-specification.md](specifications/module-specification.md) | Standard structure every audit module should follow. |
+| Finding Specification | [specifications/finding-specification.md](specifications/finding-specification.md) | Required fields and lifecycle for findings. |
+| Report Specification | [specifications/report-specification.md](specifications/report-specification.md) | Required sections and characteristics for audit reports. |
+
+> [!IMPORTANT]
+> The current schemas are Markdown documents containing YAML structures. They are not JSON Schema files and should not be passed to JSON Schema validators as-is.
 
 ## AI Compatibility
 
-AAF is model independent by design. Models participate through provider adapters that expose capabilities and constraints without changing framework artifacts.
+AAF can be used with different AI models because the repository defines behavior through prompts, methodology, schemas, and auditor responsibilities instead of provider-specific features.
 
-Adapter metadata should record:
+Model selection should consider:
 
-| Metadata | Purpose |
+| Capability | Why it matters |
 | --- | --- |
-| Provider and model name | Identifies the AI system used for the run. |
-| Model version | Preserves reproducibility when providers update models. |
-| Adapter version | Records framework integration behavior. |
-| Context limits | Explains what source material could be reviewed. |
-| Tool permissions | Shows whether repository inspection, shell access, or file reads were available. |
-| Structured output support | Documents JSON mode, schema mode, tool calls, or validation-retry behavior. |
-| Validation retries | Records attempts required to produce valid artifacts. |
-| Known limitations | Prevents reports from hiding model or runtime constraints. |
+| Reasoning quality | Auditors must connect evidence, impact, severity, and recommendations without inventing facts. |
+| Code understanding | Auditors inspect code structure, dependencies, configuration, and architecture. |
+| Security judgment | The Security Auditor depends on standards such as OWASP, CWE, CVSS, NIST SSDF, and CIS. |
+| Long context | Larger repositories require enough context to preserve evidence and avoid shallow analysis. |
+| Structured output discipline | The model must follow AAF schemas and report formats. |
+| Uncertainty handling | Weak evidence must be marked as a limitation or potential risk. |
 
-The model-support policy is documented in [docs/MODEL_SUPPORT.md](docs/MODEL_SUPPORT.md). Certification records are reserved in [models/README.md](models/README.md) for future benchmarked model assessments.
+AAF is suitable for use with hosted models and local LLMs when they can follow the framework rules. The repository does not include model adapters, benchmark records, or a certification runtime in V1.
 
 ## Project Structure
 
+This is the actual top-level structure of the ZIP:
+
 ```text
-AI-Audit-Framework/
-|-- .github/                 Repository automation and community metadata
-|-- .vscode/                 Editor workspace configuration
-|-- adr/                     Architecture decision records
-|-- api/                     Planned REST API architecture
-|-- assets/                  Diagram assets and future brand assets
-|-- auditors/                Auditor modules and specifications
-|   `-- discovery/           First complete auditor
-|-- benchmarks/              Planned benchmark methodology and datasets
-|-- cli/                     Planned command-line interface architecture
-|-- contracts/               YAML contracts exchanged between framework components
-|-- core/                    Core rules, workflow, scoring, terminology, persona, and output rules
-|-- dashboard/               Planned dashboard architecture
-|-- docs/                    Framework documentation
-|-- examples/                Example space for audit inputs and outputs
-|-- fixtures/                Fixture space for tests and reproducible scenarios
-|-- governance/              RFC, release, and decision processes
-|-- knowledge/               Shared engineering knowledge base
-|-- models/                  Model certification record format
-|-- profiles/                Technology profile definitions and future activation rules
-|-- resources/               Supporting resources
-|-- schemas/                 JSON Schema contracts
-|-- sdk/                     Plugin SDK templates and future extension points
-|-- specifications/          RFC-style framework specifications
-|-- templates/               Report, finding, recommendation, inventory, and risk templates
-`-- tests/                   Test strategy and future validation tests
+application-audit-framework-main/
+|-- auditors/
+|   |-- architecture/
+|   |-- code-quality/
+|   |-- discovery/
+|   |-- infrastructure/
+|   |-- performance/
+|   |-- report/
+|   `-- security/
+|-- core/
+|-- docs/
+|-- knowledge-base/
+|-- prompts/
+|-- schemas/
+|-- specifications/
+|-- .gitignore
+|-- LICENSE
+`-- README.md
 ```
+
+### File inventory
+
+| Area | Files in ZIP |
+| --- | ---: |
+| Entire repository | 208 |
+| Auditors | 135 |
+| Core | 12 |
+| Docs | 2 |
+| Knowledge Base | 43 |
+| Prompts | 7 |
+| Schemas | 3 |
+| Specifications | 3 |
 
 ## Quick Start
 
-Use this foundation release to understand the framework, author auditor outputs, and validate artifacts against the published contracts.
+Because this repository is a framework package rather than an executable tool, the practical workflow is documentation-driven.
 
-### 1. Clone the repository
+### 1. Open the framework
 
 ```bash
-git clone https://github.com/<organization>/AI-Audit-Framework.git
-cd AI-Audit-Framework
+unzip application-audit-framework-main.zip
+cd application-audit-framework-main
 ```
 
-Replace `<organization>` with the repository owner used by your fork or upstream remote.
-
-### 2. Read the audit lifecycle
+### 2. Read the core rules
 
 Start with:
 
-- [docs/METHODOLOGY.md](docs/METHODOLOGY.md)
-- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
-- [core/workflow.md](core/workflow.md)
 - [core/rules.md](core/rules.md)
+- [core/audit-flow.md](core/audit-flow.md)
+- [core/evidence.md](core/evidence.md)
+- [core/severity.md](core/severity.md)
+- [core/confidence.md](core/confidence.md)
+- [core/scoring.md](core/scoring.md)
 
-These documents define how AAF turns source evidence into validated outputs.
+These files define how an audit should behave.
 
-### 3. Run a manual Discovery pass
-
-Use the Discovery materials as the first practical workflow:
-
-- [auditors/discovery/checklist.md](auditors/discovery/checklist.md)
-- [auditors/discovery/prompt.md](auditors/discovery/prompt.md)
-- [auditors/discovery/specification.md](auditors/discovery/specification.md)
-
-The expected result is a Project Inventory that lists detected technologies, delivery surfaces, configuration signals, documentation, and limitations with evidence.
-
-### 4. Validate artifact shape
-
-Use the schemas in [schemas/](schemas/) with any JSON Schema draft 2020-12 validator.
-
-Example with `ajv-cli`:
-
-```bash
-npx ajv-cli validate \
-  --spec=draft2020 \
-  -s schemas/inventory.schema.json \
-  -d path/to/inventory.json
-```
-
-Example with Python:
-
-```bash
-python -m pip install jsonschema
-python - <<'PY'
-import json
-from pathlib import Path
-from jsonschema import Draft202012Validator
-
-schema = json.loads(Path("schemas/inventory.schema.json").read_text())
-data = json.loads(Path("path/to/inventory.json").read_text())
-Draft202012Validator(schema).validate(data)
-print("inventory is valid")
-PY
-```
-
-### 5. Assemble a report
+### 3. Run Discovery manually
 
 Use:
 
-- [templates/report-template.md](templates/report-template.md)
-- [templates/finding-template.md](templates/finding-template.md)
-- [templates/risk-matrix-template.md](templates/risk-matrix-template.md)
+- [auditors/discovery/README.md](auditors/discovery/README.md)
+- [auditors/discovery/checklist.md](auditors/discovery/checklist.md)
+- [auditors/discovery/prompt.md](auditors/discovery/prompt.md)
+- [schemas/project-schema.md](schemas/project-schema.md)
+
+The expected result is a project inventory that describes the target application.
+
+### 4. Run domain auditors
+
+After Discovery, use the relevant auditor directories:
+
+- [auditors/architecture/](auditors/architecture/)
+- [auditors/security/](auditors/security/)
+- [auditors/code-quality/](auditors/code-quality/)
+- [auditors/performance/](auditors/performance/)
+- [auditors/infrastructure/](auditors/infrastructure/)
+
+Every finding should conform to [schemas/finding-schema.md](schemas/finding-schema.md) and [specifications/finding-specification.md](specifications/finding-specification.md).
+
+### 5. Consolidate the final report
+
+Use:
+
+- [auditors/report/README.md](auditors/report/README.md)
+- [auditors/report/checklist.md](auditors/report/checklist.md)
+- [auditors/report/prompt.md](auditors/report/prompt.md)
+- [schemas/report-schema.md](schemas/report-schema.md)
 - [specifications/report-specification.md](specifications/report-specification.md)
 
-Reports must separate facts, findings, recommendations, scores, methodology, and limitations.
+The final report should include an executive summary, project overview, findings, severity analysis, confidence analysis, recommendations, score, and conclusion.
 
 ## Installation
 
-AAF v0.1 does not install a runtime package. Install the framework documentation and contracts by cloning the repository.
+AAF V1 does not require installation. It is distributed as documentation, prompts, schemas, specifications, and auditor modules.
+
+Use it by cloning or extracting the repository:
 
 ```bash
-git clone https://github.com/<organization>/AI-Audit-Framework.git
-cd AI-Audit-Framework
+git clone https://github.com/<owner>/application-audit-framework.git
+cd application-audit-framework
 ```
 
-Optional local documentation checks depend on your toolchain. The repository includes Markdown, spelling, schema, and governance-oriented assets, but it does not currently define a package manager lockfile or executable `aaf` binary.
+Or from the ZIP:
 
-For planned installable surfaces, see:
+```bash
+unzip application-audit-framework-main.zip
+cd application-audit-framework-main
+```
 
-- [cli/README.md](cli/README.md)
-- [api/README.md](api/README.md)
-- [dashboard/README.md](dashboard/README.md)
-- [docs/EXECUTION.md](docs/EXECUTION.md)
+No package manager installation is required for the current repository contents.
 
-## Documentation
-
-The documentation is organized by reader goal.
+## Documentation Links
 
 | Goal | Start here |
 | --- | --- |
-| Understand the framework | [docs/METHODOLOGY.md](docs/METHODOLOGY.md), [docs/DESIGN.md](docs/DESIGN.md), [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) |
-| Learn canonical terms | [docs/TERMINOLOGY.md](docs/TERMINOLOGY.md), [core/glossary.md](core/glossary.md) |
-| Understand the execution model | [docs/EXECUTION.md](docs/EXECUTION.md), [core/workflow.md](core/workflow.md) |
-| Review security assumptions | [docs/SECURITY_MODEL.md](docs/SECURITY_MODEL.md), [SECURITY.md](SECURITY.md) |
-| Use the Discovery Auditor | [auditors/discovery/README.md](auditors/discovery/README.md), [auditors/discovery/checklist.md](auditors/discovery/checklist.md), [auditors/discovery/prompt.md](auditors/discovery/prompt.md) |
-| Validate artifacts | [schemas/](schemas/), [contracts/](contracts/), [specifications/](specifications/) |
-| Build reports | [templates/](templates/), [specifications/report-specification.md](specifications/report-specification.md) |
-| Understand model support | [docs/MODEL_SUPPORT.md](docs/MODEL_SUPPORT.md), [models/README.md](models/README.md) |
-| Contribute changes | [CONTRIBUTING.md](CONTRIBUTING.md), [docs/CONTRIBUTING_GUIDE.md](docs/CONTRIBUTING_GUIDE.md), [governance/RFC_PROCESS.md](governance/RFC_PROCESS.md) |
-| Track planned work | [docs/ROADMAP.md](docs/ROADMAP.md), [CHANGELOG.md](CHANGELOG.md) |
+| Understand AAF architecture | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) |
+| Understand the audit methodology | [docs/METHODOLOGY.md](docs/METHODOLOGY.md) |
+| Learn the official audit flow | [core/audit-flow.md](core/audit-flow.md) |
+| Read global audit rules | [core/rules.md](core/rules.md) |
+| Understand evidence requirements | [core/evidence.md](core/evidence.md) |
+| Understand severity | [core/severity.md](core/severity.md) |
+| Understand confidence | [core/confidence.md](core/confidence.md) |
+| Understand scoring | [core/scoring.md](core/scoring.md) |
+| Understand reporting | [core/reporting.md](core/reporting.md) |
+| Use the prompt system | [prompts/system.md](prompts/system.md), [prompts/planner.md](prompts/planner.md), [prompts/reviewer.md](prompts/reviewer.md), [prompts/critic.md](prompts/critic.md), [prompts/reporter.md](prompts/reporter.md) |
+| Use project, finding, and report structures | [schemas/project-schema.md](schemas/project-schema.md), [schemas/finding-schema.md](schemas/finding-schema.md), [schemas/report-schema.md](schemas/report-schema.md) |
+| Create or review audit modules | [specifications/module-specification.md](specifications/module-specification.md) |
+| Create or review findings | [specifications/finding-specification.md](specifications/finding-specification.md) |
+| Create or review final reports | [specifications/report-specification.md](specifications/report-specification.md) |
 
 <details>
-<summary><strong>Core specifications</strong></summary>
+<summary><strong>Auditor documentation</strong></summary>
 
-- [specifications/module-specification.md](specifications/module-specification.md)
-- [specifications/inventory-specification.md](specifications/inventory-specification.md)
-- [specifications/finding-specification.md](specifications/finding-specification.md)
-- [specifications/report-specification.md](specifications/report-specification.md)
-- [specifications/prompt-specification.md](specifications/prompt-specification.md)
-- [specifications/checklist-specification.md](specifications/checklist-specification.md)
+- [Discovery Auditor](auditors/discovery/README.md)
+- [Architecture Auditor](auditors/architecture/README.md)
+- [Security Auditor](auditors/security/README.md)
+- [Code Quality Auditor](auditors/code-quality/README.md)
+- [Performance Auditor](auditors/performance/README.md)
+- [Infrastructure Auditor](auditors/infrastructure/README.md)
+- [Report Auditor](auditors/report/README.md)
 
 </details>
 
 ## Community
 
-AAF is structured as an open-source engineering project. Community participation should improve the framework as a shared standard, not add isolated prompts that cannot be validated or maintained.
+AAF is maintained by Talisson Souza.
 
-| Resource | Purpose |
+| Resource | Link |
 | --- | --- |
-| [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) | Community behavior expectations. |
-| [CONTRIBUTING.md](CONTRIBUTING.md) | Contribution entry point. |
-| [docs/CONTRIBUTING_GUIDE.md](docs/CONTRIBUTING_GUIDE.md) | Detailed contribution process. |
-| [governance/RFC_PROCESS.md](governance/RFC_PROCESS.md) | Proposal process for framework changes. |
-| [governance/DECISION_PROCESS.md](governance/DECISION_PROCESS.md) | Decision-making rules. |
-| [governance/RELEASE_PROCESS.md](governance/RELEASE_PROCESS.md) | Release process. |
-| [SECURITY.md](SECURITY.md) | Security reporting and handling. |
+| Developer website | [https://www.talissonsouza.com.br](https://www.talissonsouza.com.br) |
+| Discord community | [https://discord.talissonsouza.com.br](https://discord.talissonsouza.com.br) |
+| License | [LICENSE](LICENSE) |
 
 ## Roadmap
 
-The public roadmap turns the current documentation-first foundation into executable, validated, and benchmarked audit infrastructure.
+The current ZIP represents AAF V1 as a documentation and prompt framework. Future versions can add runtime behavior and integrations without changing the core audit philosophy.
 
-| Milestone | Theme | Intended outcomes |
-| --- | --- | --- |
-| v0.1 Foundation | Specifications and contracts | Repository structure, methodology, governance, schemas, contracts, templates, Discovery Auditor, scoring, severity, evidence, inventory, report, and finding models. |
-| v0.2 Executable Core | First command surfaces | CLI surfaces for discovery and report validation, schema validation commands, fixture-based Discovery tests, initial technology profiles. |
-| v0.3 Auditor Expansion | Additional auditor specs | Security, Architecture, Code Quality, and Performance auditor specifications, model adapter interfaces, reproducible audit bundles, benchmark datasets. |
-| v0.5 Platform Integrations | Delivery surfaces | GitHub Action, VS Code extension prototype, REST API prototype, dashboard prototype, plugin SDK loading, multi-model validation workflows. |
-| v1.0 Stable Framework | Compatibility guarantees | Stable public schemas, contracts, CLI commands, plugin SDK, benchmark methodology, certification process, release signing, migration guides, and reference documentation. |
-
-Read the full plan in [docs/ROADMAP.md](docs/ROADMAP.md).
+| Version | Planned direction |
+| --- | --- |
+| V1 | Documentation framework, auditors, prompts, schemas, specifications, core rules, and knowledge base. |
+| V2 | Audit Engine, CLI, parser, AST support, and rule engine. |
+| V3 | AI agents, RAG, memory, embeddings, and richer context retrieval. |
+| V4 | Dashboard, PDF rendering, HTML reports, and interactive report views. |
+| V5 | VS Code extension, GitHub Action, REST API, and developer workflow integrations. |
+| V6 | Enterprise features, governance, access control, audit history, and organizational workflows. |
 
 ## FAQ
 
-### Is AAF ready to run automated audits?
+### Does this ZIP include a runnable CLI?
 
-Not yet. The current release is a foundation release. It defines the framework, contracts, schemas, templates, governance, and Discovery Auditor materials. Executable audit orchestration is planned for later milestones.
+No. The ZIP does not include a `cli/` directory, executable binary, package manifest, or command runner. It is a documentation and prompt framework.
 
-### Is AAF just a collection of prompts?
+### Does this ZIP include an API or dashboard?
 
-No. Prompts are one part of the framework. AAF also defines auditor scope, structured contracts, validation schemas, scoring, report templates, terminology, governance, model metadata, and future execution surfaces.
+No. API and dashboard capabilities are roadmap items. They are not present in the current package.
 
-### Can I use AAF manually today?
+### Are the schemas JSON Schema files?
 
-Yes. You can use the Discovery checklist and prompt to produce a Project Inventory, validate the output shape against the inventory schema, and use report templates to assemble a reviewable audit artifact.
+No. The current schemas are Markdown files containing YAML structures. They define expected output shape for humans and AI prompts.
 
-### Which AI model should I use?
+### Which auditors exist in this package?
 
-AAF does not require one model. Use a model that can inspect the required evidence, follow structured output constraints, state limitations, and support your privacy requirements. Record model and adapter metadata as described in [docs/MODEL_SUPPORT.md](docs/MODEL_SUPPORT.md).
+The package includes Discovery, Architecture, Security, Code Quality, Performance, Infrastructure, and Report auditors.
 
-### Are generated findings automatically trusted?
+### Should Discovery generate recommendations?
 
-No. Findings must include evidence, severity, confidence, impact, recommendation, references, and validation status. Observations without evidence must be rejected or recorded as limitations.
+No. Discovery identifies the project, technologies, structure, environment, and documentation. It must not generate vulnerabilities or recommendations.
 
-### Does Discovery produce security findings?
+### Can findings be reported without evidence?
 
-No. Discovery produces the Project Inventory. It may record evidence that later security auditors need, but it does not classify vulnerabilities or recommend fixes.
+No. AAF core rules require every finding to contain evidence.
 
-### How are scores calculated?
+### What happens when evidence is weak?
 
-AAF uses weighted category scores on a 0-100 scale. The default weights are documented in [core/scoring.md](core/scoring.md). Reports must include calculation details.
+The finding should be downgraded, marked for verification, or documented as a limitation.
 
-### Where should new auditor work begin?
+### Is AAF tied to one AI provider?
 
-Start with [specifications/module-specification.md](specifications/module-specification.md), [core/rules.md](core/rules.md), and the Discovery Auditor as a reference module.
+No. AAF can be used with different AI models as long as the model follows the prompts, methodology, and output structures.
 
-For additional answers, see [docs/FAQ.md](docs/FAQ.md).
+### How is the score calculated?
+
+The score is a weighted average of Architecture, Code Quality, Security, Performance, and Infrastructure. Security has the highest weight in [core/scoring.md](core/scoring.md).
+
+### Where should new contributors start?
+
+Start with [docs/METHODOLOGY.md](docs/METHODOLOGY.md), [core/rules.md](core/rules.md), [schemas/finding-schema.md](schemas/finding-schema.md), and [specifications/module-specification.md](specifications/module-specification.md).
 
 ## Contributing
 
-Contributions are welcome when they preserve the framework's contract-driven design.
+Contributions should preserve AAF's modular structure.
 
-Good contributions usually do one of the following:
+Good contributions include:
 
-- Improve a specification, schema, contract, template, or governance document.
-- Add evidence requirements or validation clarity.
-- Extend Discovery with documented behavior and fixture coverage.
-- Add a profile with activation evidence and scoped checks.
-- Propose an auditor through the RFC process.
-- Improve examples, fixtures, benchmarks, or model-support records.
+- improving auditor checklists;
+- adding evidence requirements;
+- expanding security, language, framework, database, cloud, or architecture knowledge;
+- improving prompt accuracy;
+- clarifying schemas;
+- adding examples to auditor directories;
+- improving test guidance;
+- documenting future runtime behavior without claiming it already exists.
 
-Before opening a substantial change:
+Before adding new content, make sure it fits one of the existing top-level directories:
 
-1. Read [CONTRIBUTING.md](CONTRIBUTING.md).
-2. Check [docs/CHANGE_POLICY.md](docs/CHANGE_POLICY.md).
-3. Use [governance/RFC_PROCESS.md](governance/RFC_PROCESS.md) for changes that affect contracts, schemas, auditor behavior, or public compatibility.
-4. Update related docs, schemas, templates, and examples together.
-
-> [!TIP]
-> AAF maintainers review for evidence quality, naming consistency, provider independence, schema compatibility, and long-term maintainability. Small prompt-only changes are usually not enough unless they also preserve the contracts around the prompt.
+- `auditors/`
+- `core/`
+- `docs/`
+- `knowledge-base/`
+- `prompts/`
+- `schemas/`
+- `specifications/`
 
 ## License
 

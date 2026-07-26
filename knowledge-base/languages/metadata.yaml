@@ -1,0 +1,26 @@
+language: TypeScript
+extensions:
+  - .ts
+  - .tsx
+
+package_managers:
+  - npm
+  - pnpm
+  - yarn
+
+frameworks:
+  - Next.js
+  - NestJS
+  - React
+  - Angular
+
+priority_auditors:
+  - security
+  - code-quality
+  - performance
+
+common_risks:
+  - xss
+  - jwt
+  - secrets
+  - prototype-pollution

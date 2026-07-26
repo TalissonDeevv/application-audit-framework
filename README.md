@@ -2,13 +2,6 @@
 
 <div align="center">
 
-<!-- Logo placeholder: replace this table cell with an SVG or PNG when the visual identity is committed. -->
-<table>
-  <tr>
-    <td align="center" width="120" height="120"><strong>AAF</strong><br />Logo Slot</td>
-  </tr>
-</table>
-
 # AI Audit Framework
 
 **A standardized framework for AI-powered software auditing.**
